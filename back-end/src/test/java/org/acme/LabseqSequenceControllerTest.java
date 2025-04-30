@@ -4,17 +4,19 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
 @QuarkusTest
-class GreetingResourceTest {
+class LabseqSequenceControllerTest {
     @Test
-    void testHelloEndpoint() {
+    void testLabSeqEndpoint() {
         given()
-          .when().get("/hello")
+          .when().get("/labseq/1")
           .then()
              .statusCode(200)
-             .body(is("Hello from Quarkus REST"));
+                .contentType("application/json")
+                .body("number", equalTo(1));
     }
 
 }
