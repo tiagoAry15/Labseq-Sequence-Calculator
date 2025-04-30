@@ -1,16 +1,15 @@
 package org.acme.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import org.acme.dto.ResponseDTO;
+import org.acme.dto.response.LabseqSequenceResponse;
 
 @ApplicationScoped
 public class LabseqSequenceService {
 
 
-    public ResponseDTO getLabseqSequence(Integer number){
+    public LabseqSequenceResponse getLabseqSequence(Integer number){
         if(number < 0) throw new IllegalArgumentException("Number cannot be negative");
-        return new ResponseDTO(calculateLabseq(number));
+        return new LabseqSequenceResponse(calculateLabseq(number));
     };
 
     private int calculateLabseq(Integer number){

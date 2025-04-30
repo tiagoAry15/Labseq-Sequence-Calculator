@@ -1,7 +1,7 @@
-package org.acme.dto;
+package org.acme.dto.response;
 
-public record ResponseDTO(Integer number) {
-    public ResponseDTO {
+public record LabseqSequenceResponse(Integer number) {
+    public LabseqSequenceResponse {
         if (number == null) {
             throw new IllegalArgumentException("Number cannot be null");
         }
