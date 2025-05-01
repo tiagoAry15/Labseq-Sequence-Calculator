@@ -1,0 +1,140 @@
+// Variáveis SCSS
+$primary-color: #3ea7a3;
+$dark-color: #002825;
+$white-color: #ffffff;
+$error-color: #d32f2f;
+$error-bg: #ffebee;
+$primary-light: rgba($primary-color, 0.1);
+$shadow-color: rgba($dark-color, 0.1);
+$transition-default: all 0.3s;
+$border-radius: 4px;
+
+// Mixins
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin button-base {
+  border: none;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: $transition-default;
+  color: $white-color;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: $white-color;
+  color: $dark-color;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px $shadow-color;
+  position: relative;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: $dark-color;
+    border-bottom: 2px solid $primary-color;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.input-container {
+  @include flex-column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+
+  label {
+    font-weight: bold;
+    color: $dark-color;
+  }
+
+  input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid $primary-color;
+    border-radius: $border-radius;
+    background-color: $white-color;
+    color: $dark-color;
+
+    &:focus {
+      outline: none;
+      border-color: $dark-color;
+      box-shadow: 0 0 0 2px rgba($primary-color, 0.3);
+    }
+  }
+}
+
+button {
+  @include button-base;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: $primary-color;
+
+  &:hover:not(:disabled) {
+    background-color: $dark-color;
+    transform: translateY(-2px);
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+}
+
+.loading {
+  text-align: center;
+  margin: 1rem 0;
+  font-style: italic;
+  color: $primary-color;
+}
+
+.error {
+  color: $error-color;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  background-color: $error-bg;
+  border-radius: $border-radius;
+  border-left: 4px solid $error-color;
+}
+
+.result-container {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: $primary-light;
+  border-radius: $border-radius;
+  border-left: 4px solid $primary-color;
+
+  .result {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: $dark-color;
+  }
+
+  .execution-time {
+    font-size: 0.9rem;
+    color: $primary-color;
+    font-weight: 500;
+  }
+}
+
+.language-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  .language-button {
+    @include button-base;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    background-color: $dark-color;
+
+    &:hover {
+      background-color: $primary-color;
+    }
+  }
+}
