@@ -7,12 +7,13 @@ import jakarta.ws.rs.ext.Provider;
 import org.acme.dto.response.ErrorResponse;
 
 @Provider
-public class IllegalArgumentExceptionHandler implements ExceptionMapper<Exception> {
+public class IllegalArgumentExceptionHandler implements ExceptionMapper<IllegalArgumentException> {
+
 
     @Override
-    public Response toResponse(Exception exception) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new ErrorResponse("Erro interno", exception.getMessage(),null))
+    public Response toResponse(IllegalArgumentException e) {
+        return Response.status(Response.Status.BAD_REQUEST)
+                .entity(new ErrorResponse("Invalid value", e.getMessage(),null))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }

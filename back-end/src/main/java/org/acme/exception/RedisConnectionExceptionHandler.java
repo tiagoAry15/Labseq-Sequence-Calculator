@@ -6,13 +6,16 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import org.acme.dto.response.ErrorResponse;
 
+import java.net.ConnectException;
+import java.util.concurrent.CompletionException;
+
 @Provider
-public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
+public class RedisConnectionExceptionHandler implements ExceptionMapper<CompletionException> {
 
     @Override
-    public Response toResponse(Exception exception) {
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(new ErrorResponse("Erro interno", exception.getMessage(),null))
+    public Response toResponse(CompletionException exception) {
+        return Response.status(Response.Status.SERVICE_UNAVAILABLE)
+                .entity(new ErrorResponse("unable to connect to the cache server", exception.getMessage(),null))
                 .type(MediaType.APPLICATION_JSON)
                 .build();
     }

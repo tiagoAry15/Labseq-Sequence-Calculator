@@ -15,6 +15,7 @@ public class CacheService {
     @Inject
     ReactiveRedisClient reactiveRedisClient;
 
+
     public Uni<Void> setReactive(String key, String value) {
         return reactiveRedisClient.set(Arrays.asList(key, value))
                 .map(response -> null);
