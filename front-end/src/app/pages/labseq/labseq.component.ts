@@ -40,8 +40,9 @@ export class LabseqComponent {
     this.labseqService.calculateLabseq(this.inputNumber).subscribe({
       next: (response) => {
       this.result = response.result
+      this.executionTime = response.executionTimeMs
       this.loading = false
-      this.addToHistory(this.inputNumber, response.result, 0)
+      this.addToHistory(this.inputNumber, response.result, response.executionTimeMs)
       },
       error: (error) => {
         this.loading = false

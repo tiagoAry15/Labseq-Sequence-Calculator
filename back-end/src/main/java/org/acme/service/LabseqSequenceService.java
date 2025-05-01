@@ -2,7 +2,7 @@ package org.acme.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import org.acme.dto.response.LabseqSequenceResponse;
+import org.acme.dto.response.LabseqSequenceResponseDTO;
 
 import java.math.BigInteger;
 
@@ -13,18 +13,15 @@ public class LabseqSequenceService {
     CacheService cacheService;
 
 
-    public LabseqSequenceResponse getLabseqSequence(Integer number) {
-        long startTime = System.currentTimeMillis();
-        long result = calculateLabseqInteractive(number);
-        long elapsed = System.currentTimeMillis() - startTime;
-        return new LabseqSequenceResponse(result, elapsed);
+    public LabseqSequenceResponseDTO getLabseqSequence(Integer number) {
+        return new LabseqSequenceResponseDTO(calculateLabseqInteractive(number));
     }
 
-    private in calculateLabseqInteractive(Integer n){
+    private int calculateLabseqInteractive(Integer n){
             if (n == 0 || n == 2) return 0;
             if (n == 1 || n == 3) return 1;
-        long[] dp = new long[n + 1];
-            dp[0] = 0L; dp[1] = 1L; dp[2] = 0L; dp[3] = 1L;
+        int[] dp = new int[n + 1];
+            dp[0] = 0; dp[1] = 1; dp[2] = 0; dp[3] = 1;
             for (int i = 4; i <= n; i++) {
                 dp[i] = dp[i - 4] + dp[i - 3];
             }
