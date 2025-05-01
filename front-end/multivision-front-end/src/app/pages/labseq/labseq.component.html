@@ -1,47 +1,41 @@
 <div class="container">
-<div>
-  <img src="/multivision-logo.svg" alt="Multivision" />
-</div>
-    <div class="language-toggle">
-      <button (click)="toggleLanguage()" class="language-button">
-        {{ languageService.translate('languageToggle') }}
-      </button>
+  <div>
+    <img src="/multivision-logo.svg" alt="Multivision" />
+  </div>
+
+  <h1>Labseq Sequence Calculator</h1>
+
+  <div class="input-container">
+    <label for="numberInput">Enter a number:</label>
+    <input
+      type="number"
+      id="numberInput"
+      [(ngModel)]="inputNumber"
+      min="0"
+      [disabled]="loading"
+    />
+    <button
+      (click)="calculateLabseq()"
+      [disabled]="loading || inputNumber < 0"
+    >
+      {{ loading ? 'Calculating...' : 'Calculate' }}
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    Calculating...
+  </div>
+
+  <div *ngIf="error" class="error">
+    An error occurred while calculating the sequence. Please try again.
+  </div>
+
+  <div *ngIf="result !== null" class="result-container">
+    <div class="result">
+      <strong>Result:</strong> {{ result }}
     </div>
-  
-    <h1>{{ languageService.translate('title') }}</h1>
-    
-    <div class="input-container">
-      <label for="numberInput">{{ languageService.translate('inputLabel') }}</label>
-      <input 
-        type="number" 
-        id="numberInput" 
-        [(ngModel)]="inputNumber" 
-        min="0" 
-        [disabled]="loading"
-      >
-      <button 
-        (click)="calculateLabseq()" 
-        [disabled]="loading || inputNumber < 0"
-      >
-        {{ loading ? languageService.translate('calculating') : languageService.translate('calculateButton') }}
-      </button>
-    </div>
-  
-    <div *ngIf="loading" class="loading">
-      {{ languageService.translate('calculating') }}
-    </div>
-  
-    <div *ngIf="error" class="error">
-      {{ error }}
-    </div>
-  
-    <div *ngIf="result !== null" class="result-container">
-      <div class="result">
-        <strong>{{ languageService.translate('result') }}</strong> {{ result }}
-      </div>
-      <div class="execution-time">
-        {{ languageService.translate('executionTime') }} {{ executionTime }} {{ languageService.translate('ms') }}
-      </div>
+    <div class="execution-time">
+      Execution time: {{ executionTime }} ms
     </div>
   </div>
-  
+</div>

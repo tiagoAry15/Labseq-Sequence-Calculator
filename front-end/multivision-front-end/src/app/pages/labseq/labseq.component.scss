@@ -122,19 +122,3 @@ button {
   }
 }
 
-.language-toggle {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-
-  .language-button {
-    @include button-base;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    background-color: $dark-color;
-
-    &:hover {
-      background-color: $primary-color;
-    }
-  }
-}
