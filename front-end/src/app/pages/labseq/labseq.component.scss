@@ -5,16 +5,22 @@ $white-color: #ffffff;
 $error-color: #d32f2f;
 $error-bg: #ffebee;
 $primary-light: rgba($primary-color, 0.1);
+$primary-lighter: rgba($primary-color, 0.05);
 $shadow-color: rgba($dark-color, 0.1);
 $transition-default: all 0.3s;
-$border-radius: 4px;
-
+$border-radius: 8px;
+$gray-light: #f5f5f5;
+$gray-medium: #e0e0e0;
 // Mixins
 @mixin flex-column {
   display: flex;
   flex-direction: column;
 }
 
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
 @mixin button-base {
   border: none;
   border-radius: $border-radius;
@@ -22,6 +28,12 @@ $border-radius: 4px;
   transition: $transition-default;
   color: $white-color;
   font-weight: bold;
+}
+.header-image {
+  max-width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .container {
@@ -31,16 +43,35 @@ $border-radius: 4px;
   background-color: $white-color;
   color: $dark-color;
   border-radius: 8px;
+  border-top: 4px solid $primary-color;
   box-shadow: 0 4px 12px $shadow-color;
   position: relative;
 
-  h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: $dark-color;
-    border-bottom: 2px solid $primary-color;
-    padding-bottom: 0.5rem;
+
+}
+.calculator-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  
+  .calculator-icon {
+    color: $primary-color;
   }
+  
+  h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    color: $dark-color;
+  }
+}
+
+.description {
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 14px;
 }
 
 .input-container {
@@ -120,5 +151,103 @@ button {
     color: $primary-color;
     font-weight: 500;
   }
+
 }
+
+.history-container {
+  margin-top: 2rem;
+  @include flex-column;
+  gap: 1rem;
+  
+  .history-header {
+    @include flex-row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $gray-medium;
+    
+    .clear-history-button {
+      @include button-base;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.75rem;
+      background-color: $dark-color;
+      opacity: 0.8;
+      
+      &:hover {
+        background-color: $primary-color;
+        opacity: 1;
+      }
+    }
+  }
+  
+  .history-list {
+    @include flex-column;
+    gap: 0.75rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: $gray-light;
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: $primary-color;
+      border-radius: 3px;
+    }
+  }
+  
+  .history-item {
+    padding: 0.75rem;
+    background-color: $primary-lighter;
+    border-radius: $border-radius;
+    border-left: 3px solid $primary-color;
+    transition: $transition-default;
+    
+    &:hover {
+      background-color: $primary-light;
+      transform: translateX(2px);
+    }
+    
+    .history-item-header {
+      @include flex-row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      
+      .history-input {
+        font-weight: bold;
+        color: $dark-color;
+      }
+      
+      .history-timestamp {
+        font-size: 0.75rem;
+        color: $primary-color, 10%;
+      }
+    }
+    
+    .history-item-content {
+      @include flex-column;
+      gap: 0.25rem;
+      
+      .history-result {
+        font-size: 1rem;
+        color: $dark-color;
+      }
+      
+      .history-execution-time {
+        font-size: 0.8rem;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+
+
 

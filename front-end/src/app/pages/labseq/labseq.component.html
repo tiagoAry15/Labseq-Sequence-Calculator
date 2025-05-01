@@ -1,10 +1,19 @@
+
+<div class="header">
+  <img src="/multivision-logo.svg" alt="Multivision Logo" class="header-image">
+</div>
 <div class="container">
-  <div>
-    <img src="/multivision-logo.svg" alt="Multivision" />
+
+  <div class="calculator-header">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="calculator-icon">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <line x1="2" y1="10" x2="22" y2="10" />
+      <line x1="8" y1="4" x2="8" y2="10" />
+      <line x1="16" y1="4" x2="16" y2="10" />
+    </svg>
+    <h1>Labseq Sequence Calculator</h1>
   </div>
-
-  <h1>Labseq Sequence Calculator</h1>
-
+  <p class="description">Calculate the Labseq sequence for any number</p>
   <div class="input-container">
     <label for="numberInput">Enter a number:</label>
     <input
@@ -12,8 +21,15 @@
       id="numberInput"
       [(ngModel)]="inputNumber"
       min="0"
+      pattern="^[0-9]+$"
+        inputmode="numeric"
       [disabled]="loading"
+      #numberField="ngModel"
+      (keypress)="allowOnlyDigits($event)"
     />
+    <div *ngIf="numberField.invalid && numberField.touched" class="error">
+      Only positive integer numbers are permitted.
+    </div>
     <button
       (click)="calculateLabseq()"
       [disabled]="loading || inputNumber < 0"
@@ -36,6 +52,32 @@
     </div>
     <div class="execution-time">
       Execution time: {{ executionTime }} ms
+    </div>
+  </div>
+
+  <div *ngIf="history.length > 0" class="history-container">
+    <div class="history-header">
+      <h2>History</h2>
+      <button (click)="clearHistory()" class="clear-history-button">
+        clear history
+      </button>
+    </div>
+    
+    <div class="history-list">
+      <div *ngFor="let item of history" class="history-item">
+        <div class="history-item-header">
+          <span class="history-input">l({{ item.input }})</span>
+          <span class="history-timestamp">{{ formatDate(item.timestamp) }}</span>
+        </div>
+        <div class="history-item-content">
+          <div class="history-result">
+            <strong>Result:</strong> {{ item.result }}
+          </div>
+          <div class="history-execution-time">
+            Execution time: {{ executionTime }} ms
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

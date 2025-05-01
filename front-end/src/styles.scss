@@ -2,31 +2,89 @@
 $primary: #3ea7a3;
 $dark: #002825;
 $light: #ffffff;
-$primary-light: rgba($primary, 0.1);
-$primary-font: "Raleway", sans-serif;
+$background: #f0fffc;
+$card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
 // Estilos globais
 body {
   margin: 0;
   padding: 0;
-  font-family: #{$primary-font};
-  background-color: #f5f5f5;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: $background;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, $light 0%, #e6f7f6 100%);
 }
 
 * {
   box-sizing: border-box;
 }
 
-:root {
-  --primary: #{$primary};
-  --dark: #{$dark};
-  --light: #{$light};
-  --primary-light: #{$primary-light};
-  --primary-font : #{$primary-font};
+.container {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: $card-shadow;
+  padding: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+  img {
+    height: 40px;
+  }
+  
+  .logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: $dark;
+  }
+}
+
+.tagline {
+  color: $primary;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-size: 14px;
+  margin-top: auto;
 }

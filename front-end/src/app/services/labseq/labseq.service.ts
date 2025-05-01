@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 export interface LabseqResponse {
   result: number
-  executionTime: number
 }
 
 @Injectable({
