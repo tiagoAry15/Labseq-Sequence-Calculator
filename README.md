@@ -8,8 +8,8 @@ The Labseq Sequence Calculator is a RESTful web service built with the **Quarkus
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/tiagoAry15/Multivision-Challenge.git
-    cd Multivision-Challenge
+    git clone [https://github.com/tiagoAry15/Labseq-Sequence-Calculator.git](https://github.com/tiagoAry15/Labseq-Sequence-Calculator.git)
+    cd Labseq-Sequence-Calculator
     ```
 
 2. **Run with Docker Compose**:
