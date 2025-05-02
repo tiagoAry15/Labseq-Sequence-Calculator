@@ -69,6 +69,10 @@ By switching to an **iterative approach** and caching computed values, the appli
 `ConcurrentHashMap` was a better choice for caching due to its built-in thread-safety. It allows multiple threads to safely access and modify the cache simultaneously without requiring external synchronization.  
 Additionally, it is optimized for high concurrency, offering excellent read and write performance even under heavy load.
 
+### 5. Passing execution time as a Header
+The challenge specified that I should return only a single value in the endpoint. However, for performance evaluation purposes, I realized it was necessary to pass this value and add it to the web application. Instead of including it as a JSON field, I chose to pass it as a header `X-Execution-Time-ms` to avoid violating the requirements of the challenge.
+
+
 
 
 
