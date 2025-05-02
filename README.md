@@ -2,7 +2,7 @@
 
 ## 📖 Description
 
-The Labseq Sequence Calculator is a RESTful web service built with the **Quarkus Java framework**. It computes and returns values from the `labseq` sequence, offering high performance and scalability. The project also includes OpenAPI documentation and supports containerized execution using **Docker Compose**. Challenge made by Multivision.LTDA
+Labseq Sequence Calculator is a web application that calculates the value of a custom sequence at a given index. It features a backend API built with Quarkus and a frontend developed with Angular.js, deployed using Docker. This project was developed as a technical test for Multivision.ltda.
 
 ## 🛠️ How to Use
 
@@ -21,7 +21,7 @@ The Labseq Sequence Calculator is a RESTful web service built with the **Quarkus
 3. **Access the Web Application**:
 - Open your browser or API client and navigate to `http://localhost:4200`.
 
-![Web page](image.png)
+![Web page](webpage.png)
 
 Enter a non-negative integer to calculate the value at that index in the Labseq sequence.
 
@@ -56,9 +56,8 @@ During my tests, I noticed that when I used large values for `n`, some results w
 > `BigInteger` is not limited by a fixed bit size; it can grow as large as the available memory allows.
 
 ### 2. Redis Cache vs In-Memory Cache
-
 I chose **in-memory caching** over Redis due to its performance. Acessing memory is significantly faster than communicating with Redis over the network. No serialization or network latency is involved. 
-  The current project is lightweight, runs on a single node, and does not require distributed caching or persistence between restarts. In-memory caching keeps the architecture simple and fast.
+The current project is lightweight, runs on a single node, and does not require distributed caching or persistence between restarts. In-memory caching keeps the architecture simple and fast.
 **Trade-off**:  
 If the application restarts, all in-memory cache is lost. However, for this scope, I believe it’s an acceptable limitation.
 
@@ -67,5 +66,10 @@ Using plain recursion without caching leads to exponential time complexity (O(2�
 By switching to an **iterative approach** and caching computed values, the application's performance improved by ~90%, and the occurrence of expected errors significantly decreased.
 
 ### 4. Usage of Concurrent Hash Map as Cache
+`ConcurrentHashMap` was a better choice for caching due to its built-in thread-safety. It allows multiple threads to safely access and modify the cache simultaneously without requiring external synchronization.  
+Additionally, it is optimized for high concurrency, offering excellent read and write performance even under heavy load.
+
+
+
 
 
