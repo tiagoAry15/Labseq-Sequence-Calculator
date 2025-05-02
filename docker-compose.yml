@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+        - "4200:4200"  
+
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile.jvm
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+    environment:
+      - CACHE_SERVER_URL=redis://redis:6379
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
