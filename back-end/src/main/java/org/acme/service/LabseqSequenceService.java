@@ -17,10 +17,34 @@ public class LabseqSequenceService {
 
 
     public LabseqSequenceResponseDTO getLabseqSequence(Integer number) {
-        return new LabseqSequenceResponseDTO(calculateLabseqInteractive(number));
+        return new LabseqSequenceResponseDTO(calculateLabseqRecursiveWithCache(number));
     }
 
-    public String calculateLabseqWithCache(int n) {
+    private String calculateLabseqRecursiveWithCache(Integer n) {
+        if (n == 0 || n == 2) return BigInteger.ZERO.toString();
+        if (n == 1 || n == 3) return BigInteger.ONE.toString();
+
+        String key = "labseq:" + n;
+
+        // Busca no Redis cache
+        String cachedValue = cacheService.getReactive(key).await().indefinitely();
+        if (cachedValue != null) return cachedValue;
+
+        // Chamada recursiva convertendo os resultados para BigInteger
+        BigInteger val1 = new BigInteger(calculateLabseqRecursiveWithCache(n - 4));
+        BigInteger val2 = new BigInteger(calculateLabseqRecursiveWithCache(n - 3));
+
+        BigInteger result = val1.add(val2);
+        String resultStr = result.toString();
+
+        // Salva no cache
+        cacheService.setReactive(key, resultStr).await().indefinitely();
+
+        return resultStr;
+    }
+
+
+    public String calculateLabseqWithMemoryCacheBigInteger(int n) {
         String cachedResult = cache.get(n);
         if (cachedResult != null) return cachedResult;
 
@@ -53,7 +77,7 @@ public class LabseqSequenceService {
         return result;
     }
 
-    public String calculateLabseqInteractive(int n) {
+    public String calculateLabseqInteractiveBigInteger(int n) {
         if (n == 0 || n == 2) return BigInteger.ZERO.toString();
         if (n == 1 || n == 3) return  BigInteger.ONE.toString();
 
@@ -65,6 +89,24 @@ public class LabseqSequenceService {
         for (int i = 4; i <= n; i++) dp[i] = dp[i - 4].add(dp[i - 3]);
         return dp[n].toString();
     }
+
+    public String calculateLabseqInteractiveLong(int n) {
+        if (n == 0 || n == 2) return "0";
+        if (n == 1 || n == 3) return "1";
+
+        long[] dp = new long[n + 1];
+        dp[0] = 0L;
+        dp[1] = 1L;
+        dp[2] = 0L;
+        dp[3] = 1L;
+
+        for (int i = 4; i <= n; i++) {
+            dp[i] = dp[i - 4] + dp[i - 3];
+        }
+
+        return String.valueOf(dp[n]);
+    }
+
 
 
 }
