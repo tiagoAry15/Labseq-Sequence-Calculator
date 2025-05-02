@@ -60,15 +60,14 @@ export class LabseqComponent {
       timestamp: new Date(),
     }
 
-    // Adicionar ao início da lista para mostrar os mais recentes primeiro
-    this.history.unshift(historyItem)
-
-    // Limitar o histórico a 10 itens
+    
+    this.history.unshift({ ...historyItem });
+    
     if (this.history.length > 10) {
       this.history = this.history.slice(0, 10)
     }
 
-    // Salvar no localStorage
+    
     localStorage.setItem("calculationHistory", JSON.stringify(this.history))
   }
 
@@ -79,7 +78,6 @@ export class LabseqComponent {
 
   allowOnlyDigits(event: KeyboardEvent) {
     const char = event.key;
-    // Se não for dígito entre 0 e 9, previne
     if (!/^[0-9]$/.test(char)) {
       event.preventDefault();
     }

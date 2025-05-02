@@ -1,4 +1,4 @@
-// Variáveis SCSS
+
 $primary-color: #3ea7a3;
 $dark-color: #002825;
 $white-color: #ffffff;
@@ -11,7 +11,7 @@ $transition-default: all 0.3s;
 $border-radius: 8px;
 $gray-light: #f5f5f5;
 $gray-medium: #e0e0e0;
-// Mixins
+
 @mixin flex-column {
   display: flex;
   flex-direction: column;
