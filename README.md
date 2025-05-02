@@ -8,8 +8,8 @@ Labseq Sequence Calculator is a web application that calculates the value of a c
 
 1. **Clone the Repository**:
     ```bash
-    git clone https://github.com/tiagoAry15/Multivision-Challenge.git
-    cd Multivision-Challenge
+    git clone https://github.com/tiagoAry15/Labseq-Sequence-Calculator.git
+    cd Labseq-Sequence-Calculator
     ```
 
 2. **Run with Docker Compose**:
