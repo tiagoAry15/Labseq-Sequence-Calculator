@@ -16,7 +16,17 @@ class LabseqSequenceControllerTest {
           .then()
              .statusCode(200)
                 .contentType("application/json")
-                .body("number", equalTo(1));
+                .body("result", equalTo(1));
+    }
+
+    @Test
+    void testLabSeqEndpointInput10() {
+        given()
+                .when().get("/labseq/10")
+                .then()
+                .statusCode(200)
+                .contentType("application/json")
+                .body("result", equalTo(3));
     }
 
 }

@@ -17,7 +17,7 @@ export interface LabseqWithTime {
 })
 
 export class LabseqService {
-private apiUrl = "http://localhost:8080/labseq"
+private apiUrl = "http://backend:8080/labseq"
 constructor(private http: HttpClient) {}
 
 calculateLabseq(n: number): Observable<LabseqWithTime> {
