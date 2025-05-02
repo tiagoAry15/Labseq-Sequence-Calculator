@@ -10,13 +10,13 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTest
 class LabseqSequenceControllerTest {
     @Test
-    void testLabSeqEndpoint() {
+    void testLabSeqEndpointInput1() {
         given()
           .when().get("/labseq/1")
           .then()
              .statusCode(200)
                 .contentType("application/json")
-                .body("result", equalTo(1));
+                .body("result", equalTo("1"));
     }
 
     @Test
@@ -26,17 +26,30 @@ class LabseqSequenceControllerTest {
                 .then()
                 .statusCode(200)
                 .contentType("application/json")
-                .body("result", equalTo(3));
+                .body("result", equalTo("3"));
     }
 
     @Test
-        void testLabSeqEndpointNegativeInput() {
-            given()
-                    .when().get("/labseq/-1")
-                    .then()
-                    .statusCode(400)
-                    .contentType("application/json")
-                    .body("error", is("the index must be greater than or equal to 0"));
-        }
+    public void testGetLabseqSequence_withInvalidIndex() {
+        given()
+                .when()
+                .get("/labseq/-1")
+                .then()
+                .statusCode(400)
+                .body("title", equalTo("Constraint Violation"))
+                .body("status", equalTo(400))
+                .body("violations.size()", equalTo(1))
+                .body("violations[0].field", equalTo("getLabseqSequence.index"))
+                .body("violations[0].message", equalTo("the index must be greater than or equal to 0"));
+    }
+    @Test
+    void testLabSeqEndpointpassingLetter() {
+        given()
+                .when().get("/labseq/1a")
+                .then()
+                .statusCode(404)
+                .contentType("application/json")
+                .body("error", is("endpoint not found"));
+    }
 
 }
