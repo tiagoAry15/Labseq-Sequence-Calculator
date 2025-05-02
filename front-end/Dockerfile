@@ -1,20 +1,17 @@
-# Imagem base Node.js LTS
-FROM node:22
-
-# Diretório de trabalho no container
+FROM node:22 AS build
 WORKDIR /app
-
-# Copia os arquivos de dependência
 COPY package*.json ./
-
-# Instala as dependências
 RUN npm install
-
-# Copia o restante do código
 COPY . .
+RUN npm run build --prod
 
-# Expõe a porta usada pelo ng serve
-EXPOSE 4200
+FROM nginx:alpine
+# apaga tudo que veio no default
+RUN rm -rf /usr/share/nginx/html/*
 
-# Comando padrão para rodar o servidor Angular com live reload
-CMD ["npm", "run", "start"]
+# copia apenas o conteúdo de browser pro root do nginx
+COPY --from=build /app/dist/multivision-front-end/browser/ /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

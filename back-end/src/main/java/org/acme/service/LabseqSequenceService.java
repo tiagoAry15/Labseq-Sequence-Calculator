@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import org.acme.dto.response.LabseqSequenceResponseDTO;
 
 import java.math.BigInteger;
+import java.util.concurrent.ConcurrentHashMap;
 
 @ApplicationScoped
 public class LabseqSequenceService {
@@ -12,30 +13,58 @@ public class LabseqSequenceService {
     @Inject
     CacheService cacheService;
 
+    private static final ConcurrentHashMap<Integer, String> cache = new ConcurrentHashMap<>();
+
 
     public LabseqSequenceResponseDTO getLabseqSequence(Integer number) {
         return new LabseqSequenceResponseDTO(calculateLabseqInteractive(number));
     }
 
-    private int calculateLabseqInteractive(Integer n){
-            if (n == 0 || n == 2) return 0;
-            if (n == 1 || n == 3) return 1;
-        int[] dp = new int[n + 1];
-            dp[0] = 0; dp[1] = 1; dp[2] = 0; dp[3] = 1;
-            for (int i = 4; i <= n; i++) {
-                dp[i] = dp[i - 4] + dp[i - 3];
-            }
-            return dp[n];
-    };
+    public String calculateLabseqWithCache(int n) {
+        String cachedResult = cache.get(n);
+        if (cachedResult != null) return cachedResult;
 
-    private BigInteger calculateLabseqRecursiveWithCache(Integer n){
-        if (n == 0 || n == 2) return BigInteger.ZERO;
-        if (n == 1 || n == 3) return BigInteger.ONE;
-        String key = "labseq:" + n;
-        String cachedValue = cacheService.getReactive(key).await().indefinitely();
-        if (cachedValue != null) return new BigInteger(cachedValue);
-        BigInteger result = calculateLabseqRecursiveWithCache(n - 4).add(calculateLabseqRecursiveWithCache(n - 3));
-        cacheService.setReactive(key, String.valueOf(result)).await().indefinitely();
+        if (n == 0 || n == 2) {
+            String result = BigInteger.ZERO.toString();
+            cache.put(n, result);
+            return result;
+        }
+        if (n == 1 || n == 3) {
+            String result = BigInteger.ONE.toString();
+            cache.put(n, result);
+            return result;
+        }
+        BigInteger[] dp = new BigInteger[n + 1];
+        dp[0] = BigInteger.ZERO;
+        dp[1] = BigInteger.ONE;
+        dp[2] = BigInteger.ZERO;
+        dp[3] = BigInteger.ONE;
+
+        for (int i = 4; i <= n; i++) {
+            if(cache.get(i) != null) dp[i] = new BigInteger(cache.get(i));
+            else {
+                dp[i] = dp[i - 4].add(dp[i - 3]);
+                cache.put(i, dp[i].toString());
+            }
+        }
+
+        String result = dp[n].toString();
+        cache.put(n, result);
         return result;
-    };
+    }
+
+    public String calculateLabseqInteractive(int n) {
+        if (n == 0 || n == 2) return BigInteger.ZERO.toString();
+        if (n == 1 || n == 3) return  BigInteger.ONE.toString();
+
+        BigInteger[] dp = new BigInteger[n + 1];
+        dp[0] = BigInteger.ZERO;
+        dp[1] = BigInteger.ONE;
+        dp[2] = BigInteger.ZERO;
+        dp[3] = BigInteger.ONE;
+        for (int i = 4; i <= n; i++) dp[i] = dp[i - 4].add(dp[i - 3]);
+        return dp[n].toString();
+    }
+
+
 }

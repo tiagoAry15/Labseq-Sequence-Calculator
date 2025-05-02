@@ -1,7 +1,8 @@
 package org.acme.dto.response;
 
 
+import java.math.BigInteger;
 
-public record LabseqSequenceResponseDTO(int result) {
+public record LabseqSequenceResponseDTO(String result) {
 
 }

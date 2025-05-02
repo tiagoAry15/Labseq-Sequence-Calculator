@@ -46,6 +46,7 @@ export class LabseqComponent {
       },
       error: (error) => {
         this.loading = false
+        this.error = "Erro ao calcular labseq"
         console.error("Error calculating labseq:", error)
       },
     })

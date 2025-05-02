@@ -17,7 +17,7 @@ export interface LabseqWithTime {
 })
 
 export class LabseqService {
-private apiUrl = "http://backend:8080/labseq"
+private apiUrl = "http://localhost:8080/labseq"
 constructor(private http: HttpClient) {}
 
 calculateLabseq(n: number): Observable<LabseqWithTime> {
@@ -25,7 +25,7 @@ calculateLabseq(n: number): Observable<LabseqWithTime> {
     .pipe(
       map((resp: HttpResponse<LabseqResponse>) => {
         const result = resp.body?.result ?? 0;
-        const timeHeader = resp.headers.get('x-execution-time-ms') ?? '0';
+        const timeHeader = resp.headers.get('X-Execution-Time-Ms') ?? '0';
         const executionTimeMs = Number(timeHeader);
         return { result, executionTimeMs };
       })

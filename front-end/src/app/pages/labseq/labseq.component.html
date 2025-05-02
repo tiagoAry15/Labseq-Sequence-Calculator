@@ -34,12 +34,13 @@
       (click)="calculateLabseq()"
       [disabled]="loading || inputNumber < 0"
     >
-      {{ loading ? 'Calculating...' : 'Calculate' }}
+      Calculate
     </button>
   </div>
 
-  <div *ngIf="loading" class="loading">
-    Calculating...
+  <div *ngIf="loading" class="loader-overlay">
+    <div class="loader-spinner"></div>
+    <div class="loader-text">Calculating...</div>
   </div>
 
   <div *ngIf="error" class="error">
