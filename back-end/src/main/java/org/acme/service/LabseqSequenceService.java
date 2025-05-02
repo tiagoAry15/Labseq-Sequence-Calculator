@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @ApplicationScoped
 public class LabseqSequenceService {
 
-    @Inject
-    CacheService cacheService;
 
     private final ConcurrentHashMap<Integer, BigInteger> cache = new ConcurrentHashMap<>(Map.of(0,BigInteger.ZERO, 1, BigInteger.ONE, 2, BigInteger.ZERO, 3, BigInteger.ONE));
 

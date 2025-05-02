@@ -2,7 +2,7 @@
 
 ## 📖 Description
 
-The Labseq Sequence Calculator is a RESTful web service built with the **Quarkus Java framework**. It computes and returns values from the `labseq` sequence, offering high performance and scalability. The project also includes OpenAPI documentation and supports containerized execution using **Docker Compose**.
+The Labseq Sequence Calculator is a RESTful web service built with the **Quarkus Java framework**. It computes and returns values from the `labseq` sequence, offering high performance and scalability. The project also includes OpenAPI documentation and supports containerized execution using **Docker Compose**. Challenge made by Multivision.LTDA
 
 ## 🛠️ How to Use
 
@@ -37,7 +37,6 @@ Enter a non-negative integer to calculate the value at that index in the Labseq 
 
 - **Quarkus**: Java framework for building high-performance applications.
 - **OpenAPI (Swagger)**: For API documentation.
-- **Redis**: Caching layer to optimize calculations.
 - **Angular.js**: Frontend for interacting with the API.
 - **Docker & Docker Compose**: Simplified containerized deployment.
 
@@ -56,8 +55,17 @@ During my tests, I noticed that when I used large values for `n`, some results w
 
 > `BigInteger` is not limited by a fixed bit size; it can grow as large as the available memory allows.
 
-### 2. Why I Went Iterative Instead of Recursive
+### 2. Redis Cache vs In-Memory Cache
 
-Doing everything with plain recursion and no caching blows up the call tree to O(2ⁿ), making the code slow and causing constant stack overflows. Swapping in an **iterative** approach—where I keep results in an array—made the algorithm nearly 90% faster and completely nixed those stack overflow issues.
+I chose **in-memory caching** over Redis due to its performance. Acessing memory is significantly faster than communicating with Redis over the network. No serialization or network latency is involved. 
+  The current project is lightweight, runs on a single node, and does not require distributed caching or persistence between restarts. In-memory caching keeps the architecture simple and fast.
+**Trade-off**:  
+If the application restarts, all in-memory cache is lost. However, for this scope, I believe it’s an acceptable limitation.
 
-/
+### 3. Iterative vs Recursive Approach
+Using plain recursion without caching leads to exponential time complexity (O(2ⁿ)), resulting in very slow performance and a high risk of stack overflow or out-of-memory errors with large inputs.  
+By switching to an **iterative approach** and caching computed values, the application's performance improved by ~90%, and the occurrence of expected errors significantly decreased.
+
+### 4. Usage of Concurrent Hash Map as Cache
+
+

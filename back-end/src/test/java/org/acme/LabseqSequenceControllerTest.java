@@ -29,4 +29,14 @@ class LabseqSequenceControllerTest {
                 .body("result", equalTo(3));
     }
 
+    @Test
+        void testLabSeqEndpointNegativeInput() {
+            given()
+                    .when().get("/labseq/-1")
+                    .then()
+                    .statusCode(400)
+                    .contentType("application/json")
+                    .body("error", is("the index must be greater than or equal to 0"));
+        }
+
 }
